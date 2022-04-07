@@ -12,7 +12,7 @@ namespace Notes.Persistence.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Note> builder)
         {
             // параметры конфигурации (+ ограничения полей)
-            // id - первичный ключ
+            // id - первичный ключ, у Title ограничение по длине
             builder.HasKey(note => note.Id);
             builder.HasIndex(note => note.Id).IsUnique();
             builder.Property(note => note.Title).HasMaxLength(250);

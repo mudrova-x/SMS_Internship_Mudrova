@@ -8,6 +8,10 @@ namespace Notes.Persistence
 {
     public class DbInitializer
     {
-
+        // проверяет, создана ли бд, если нет - создается на основе контекста
+        public static void Initialize(NotesDbContext context)
+        {
+            context.Database.EnsureCreated();
+        }
     }
 }
