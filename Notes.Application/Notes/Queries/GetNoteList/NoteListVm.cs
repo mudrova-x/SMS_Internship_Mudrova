@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Notes.Application.Notes.Queries.GetNoteList
 {
-    public class NoteListVm
+    public class NoteDetailsVM
     {
         public IList<NoteLookupDto> Notes { get; set; } 
     }
