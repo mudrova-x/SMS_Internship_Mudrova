@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Notes.Persistence;
+using Serilog;
+using Serilog.Events;
 
 namespace Notes.WebApi
 {
@@ -14,6 +16,12 @@ namespace Notes.WebApi
     {
         public static void Main(string[] args)
         {
+            // инициализируем для логирования в файл NotesWebAppLogFile
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .WriteTo.File("NotesWebAppLogFile-.txt", rollingInterval:
+                    RollingInterval.Day)
+                .CreateLogger();
             var host = CreateHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -28,6 +36,7 @@ namespace Notes.WebApi
                 }
                 catch (Exception exeption)
                 {
+                    Log.Fatal(exeption, "An error occurred while app initialization");
                 }
 
             }
@@ -38,6 +47,7 @@ namespace Notes.WebApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .UseSerilog()
             .ConfigureWebHostDefaults(WebApplicationBuilder =>
             {
                 WebApplicationBuilder.UseStartup<Startup>();
